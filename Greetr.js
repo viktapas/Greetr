@@ -18,7 +18,7 @@
   };
 
   // formal greetings
-  var formalGrettings = {
+  var formalGreetings = {
     en: 'Greetings',
     es: 'Saludos',
     hi: 'नमस्कार'
@@ -41,7 +41,7 @@
 
     // validate the language
     validate: function () {
-      if (supportedLangs.indexOf(this.language) == -1) {
+      if (supportedLangs.indexOf(this.language) === -1) {
         throw 'Invalid language';
       }
     },
@@ -52,8 +52,8 @@
     },
 
     // formal greeting
-    formalGretting: function () {
-      return formalGrettings[this.language] + ', ' + this.fullName();
+    formalGreeting: function () {
+      return formalGreetings[this.language] + ', ' + this.fullName();
     },
 
     // shorthand of greeting
@@ -62,12 +62,12 @@
 
       // if `undefined` or `null`, it will be coerced to `false`
       if (formal) {
-        msg = this.formalGretting();
+        msg = this.formalGreeting();
       } else {
         msg = this.greeting();
       }
 
-      // if console object exsists in global environment
+      // if console object exsists in global environment, log message
       if (console) {
         console.log(msg);
       }
@@ -80,7 +80,7 @@
 
     log: function () {
 
-      // if console object available (or) exists
+      // if console object is available (or) exists
       if (console) {
         console.log(logMessages[this.language] + ': ' + this.fullName());
 
@@ -113,11 +113,11 @@
       var msg;
       // if formal is true
       if (formal) {
-        msg = this.formalGretting();
+        msg = this.formalGreeting();
       } else {
         msg = this.greeting();
       }
-      // using jQuery and calling `html` method
+      // using jQuery and calling `html` method.
       // inject the message in the chosen place in the DOM
       $(selector).html(msg);
 
@@ -130,6 +130,8 @@
   // the actual object is created here. Allowing us to `new` an object without calling `new`
   Greetr.init = function (firstname, lastname, language) {
     var self = this;
+    // undefined or null will coerce to `false`.
+    // See `OR logical operator`: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Logical_Operators
     self.firstname = firstname || '';
     self.lastname = lastname || '';
     self.language = language || 'en';
@@ -138,11 +140,11 @@
     self.validate();
   };
 
-  // every object created from `Greet.init`, their prototype points to `Greeter.prototype`
+  // The prototype property object (__proto__) of every object created from `Greet.init` points to `Greeter.prototype`
   // Trick borrowed from jQuery so we don't have to use the `new` keyword
   Greetr.init.prototype = Greetr.prototype;
 
-  // exposing Greetr object ot global environment and setting alias to `G$`
+  // exposing Greetr object to global environment and setting alias to `G$`
   global.Greetr = global.G$ = Greetr;
-
+  // invoking
 }(window, jQuery));
